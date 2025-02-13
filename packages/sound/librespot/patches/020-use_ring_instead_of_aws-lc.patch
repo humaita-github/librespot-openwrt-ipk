@@ -1,0 +1,20 @@
+--- a/core/Cargo.toml
++++ b/core/Cargo.toml
+@@ -33,7 +33,7 @@ hyper = { version = "1.3", features = ["
+ hyper-util = { version = "0.1", features = ["client"] }
+ http-body-util = "0.1.1"
+ hyper-proxy2 = { version = "0.1", default-features = false, features = ["rustls"] }
+-hyper-rustls = { version = "0.27.2", features = ["http2"] }
++hyper-rustls = { version = "0.27.2", default-features = false, features = ["http1", "logging", "tls12", "native-tokio", "http2"] }
+ log = "0.4"
+ nonzero_ext = "0.3"
+ num-bigint = { version = "0.4", features = ["rand"] }
+@@ -70,3 +70,8 @@ vergen-gitcl = { version = "1.0.0", defa
+ 
+ [dev-dependencies]
+ tokio = { version = "1", features = ["macros", "parking_lot"] }
++
++[features]
++with-aws-lc-rs = ["hyper-rustls/aws-lc-rs"]
++with-ring = ["hyper-rustls/ring"]
++default = ["with-ring"]

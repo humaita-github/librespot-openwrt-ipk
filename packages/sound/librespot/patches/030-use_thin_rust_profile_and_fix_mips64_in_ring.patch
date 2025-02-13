@@ -1,0 +1,17 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -104,3 +104,14 @@ assets = [
+ 
+ [workspace.package]
+ rust-version = "1.74"
++
++[patch.crates-io]
++ring = { git = "https://github.com/briansmith/ring/" }
++
++[profile.release]
++lto = "thin"
++debug = 0
++panic = "abort"
++incremental = false
++codegen-units = 1
++opt-level = "s"

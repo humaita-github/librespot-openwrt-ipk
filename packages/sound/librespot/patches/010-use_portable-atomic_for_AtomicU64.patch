@@ -1,0 +1,19 @@
+--- a/playback/src/mixer/softmixer.rs
++++ b/playback/src/mixer/softmixer.rs
+@@ -1,4 +1,5 @@
+-use std::sync::atomic::{AtomicU64, Ordering};
++use portable_atomic::AtomicU64;
++use std::sync::atomic::Ordering;
+ use std::sync::Arc;
+ 
+ use super::VolumeGetter;
+--- a/playback/Cargo.toml
++++ b/playback/Cargo.toml
+@@ -21,6 +21,7 @@ path = "../metadata"
+ version = "0.6.0"
+ 
+ [dependencies]
++portable-atomic = "1"
+ futures-util = "0.3"
+ log = "0.4"
+ parking_lot = { version = "0.12", features = ["deadlock_detection"] }

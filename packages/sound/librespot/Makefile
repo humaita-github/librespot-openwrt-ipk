@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=librespot
-PKG_VERSION:=0.4.2
+PKG_VERSION:=0.6.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/librespot-org/librespot/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=cc8cb81bdbaa5abf366170dec5e6b8c0ecf570a7cb68f04483e9f7eed338ca61
+PKG_HASH:=9ec881edb11e37d31a2b41dd30d56a3413445eedb720e1b0d278567dccfca8fc
 
-PKG_MAINTAINER:=Peter
+PKG_MAINTAINER:=Leonardo
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENCE
 
@@ -28,8 +28,7 @@ define Package/librespot
   SECTION:=sound
   CATEGORY:=Sound
   TITLE:=Spotify client
-  #DEPENDS:=@(TARGET_x86||TARGET_sunxi||TARGET_armsr) $(RUST_ARCH_DEPENDS) +alsa-lib 
-  DEPENDS:=@(aarch64||arm||i386||i686||x86_64) $(RUST_ARCH_DEPENDS) +alsa-lib 
+  DEPENDS:= +alsa-lib 
   URL:=https://github.com/librespot-org/librespot
 endef
 

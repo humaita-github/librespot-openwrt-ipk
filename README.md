@@ -1,4 +1,4 @@
-# librespot-openwrt
+# librespot-openwrt-ipk
 
 This repository provides IPKs of [librespot](https://github.com/librespot-org/librespot) for OpenWrt. This work is based on [librespot-openwrt](https://github.com/izer-xyz/librespot-openwrt/).
 

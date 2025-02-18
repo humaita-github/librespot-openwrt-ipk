@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -68,13 +68,6 @@ sha1 = "0.10"
+@@ -68,13 +68,6 @@ url = "2.2"
 
  [features]
  alsa-backend = ["librespot-playback/alsa-backend"]
@@ -14,7 +14,7 @@
 
  with-avahi = ["librespot-discovery/with-avahi"]
  with-dns-sd = ["librespot-discovery/with-dns-sd"]
-@@ -82,7 +75,7 @@ gstreamer-backend = ["librespot-playback/gstreamer-backend"]
+@@ -82,7 +75,7 @@ with-libmdns = ["librespot-discovery/with-libmdns"]
 
  passthrough-decoder = ["librespot-playback/passthrough-decoder"]
 

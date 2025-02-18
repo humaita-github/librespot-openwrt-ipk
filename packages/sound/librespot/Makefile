@@ -28,7 +28,7 @@ define Package/librespot
   SECTION:=sound
   CATEGORY:=Sound
   TITLE:=Spotify client
-  DEPENDS:= +alsa-lib 
+  DEPENDS:= +alsa-lib +libavahi-client
   URL:=https://github.com/librespot-org/librespot
 endef
 

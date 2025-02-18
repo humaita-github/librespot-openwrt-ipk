@@ -1,5 +1,28 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
+@@ -68,13 +68,6 @@ sha1 = "0.10"
+
+ [features]
+ alsa-backend = ["librespot-playback/alsa-backend"]
+-portaudio-backend = ["librespot-playback/portaudio-backend"]
+-pulseaudio-backend = ["librespot-playback/pulseaudio-backend"]
+-jackaudio-backend = ["librespot-playback/jackaudio-backend"]
+-rodio-backend = ["librespot-playback/rodio-backend"]
+-rodiojack-backend = ["librespot-playback/rodiojack-backend"]
+-sdl-backend = ["librespot-playback/sdl-backend"]
+-gstreamer-backend = ["librespot-playback/gstreamer-backend"]
+
+ with-avahi = ["librespot-discovery/with-avahi"]
+ with-dns-sd = ["librespot-discovery/with-dns-sd"]
+@@ -82,7 +75,7 @@ gstreamer-backend = ["librespot-playback/gstreamer-backend"]
+
+ passthrough-decoder = ["librespot-playback/passthrough-decoder"]
+
+-default = ["rodio-backend", "with-libmdns"]
++default = ["alsa-backend", "with-avahi"]
+
+ [package.metadata.deb]
+ maintainer = "librespot-org"
 @@ -104,3 +104,14 @@ assets = [
  
  [workspace.package]

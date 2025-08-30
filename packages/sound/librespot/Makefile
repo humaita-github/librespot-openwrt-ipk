@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=librespot
-PKG_VERSION:=0.6.0
+PKG_VERSION:=0.7.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/librespot-org/librespot/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=9ec881edb11e37d31a2b41dd30d56a3413445eedb720e1b0d278567dccfca8fc
+PKG_HASH:=61f90b661ba883890a7ed8fe3926372b99252abad11dcacf94f2c89df21b7746
 
 PKG_MAINTAINER:=Leonardo
 PKG_LICENSE:=MIT

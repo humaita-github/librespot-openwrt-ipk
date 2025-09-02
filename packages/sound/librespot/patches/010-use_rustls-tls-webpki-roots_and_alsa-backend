@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -36,7 +36,7 @@ repository = "https://github.com/libresp
+ edition = "2024"
+ 
+ [features]
+-default = ["native-tls", "rodio-backend", "with-libmdns"]
++default = ["rustls-tls-webpki-roots", "alsa-backend", "with-libmdns"]
+ 
+ # TLS backends (mutually exclusive - compile-time checks in oauth/src/lib.rs)
+ # Note: Feature validation is in oauth crate since it's compiled first in the dependency tree.

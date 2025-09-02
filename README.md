@@ -29,7 +29,7 @@ Here is an example on how to build for mipsel (ramips-mt7621). Check the OpenWrt
 
 ```
 # Select the OpenWrt target / OpenWrt SDK you want to use
-SDK_LINK=https://downloads.openwrt.org/releases/24.10.0/targets/ramips/mt7621/openwrt-sdk-24.10.0-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst
+SDK_LINK=https://downloads.openwrt.org/releases/24.10.2/targets/ramips/mt7621/openwrt-sdk-24.10.2-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst
 
 # Download and uncompress the respective OpenWrt SDK
 SDK_FILE=$(echo $SDK_LINK | awk -F / '{print $NF}')
@@ -43,6 +43,10 @@ cd $SDK_NAME/
 echo 'src-git librespot https://github.com/humaita-github/librespot-openwrt-ipk' >> feeds.conf.default
 ./scripts/feeds update -a
 ./scripts/feeds install librespot
+
+# If you get LLVM cache related errors, you either can use the newest Rust 
+# version or you can build it from scratch (but this increases compile time by 1-2h)
+sed -i 's/llvm.download-ci-llvm=true/llvm.download-ci-llvm="false"/' ./feeds/packages/lang/rust/Makefile
 
 # Compile
 make defconfig

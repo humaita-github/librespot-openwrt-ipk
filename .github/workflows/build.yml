@@ -5,7 +5,8 @@ on:
     inputs:
       openwrt_version:
        description: 'OpenWrt version'
-       default: '24.10.2'
+       # Use SNAPSHOT for APK and 24.10-SNAPSHOT for IPK
+       default: '24.10-SNAPSHOT'
        required: true
        type: string
   
@@ -16,61 +17,62 @@ jobs:
   build:
     name: ${{ matrix.arch }} build
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       matrix:
         arch:
           ## Rust Tier 2 with Host Tools ####
           ## aarch64-unknown-linux-musl #####
-#          - aarch64_cortex-a53           # OK. RPi 3+
-#          - aarch64_cortex-a72           # OK
-#          - aarch64_cortex-a76           # OK
-#          - aarch64_generic              # OK
+          - aarch64_cortex-a53           # OK. RPi 3+
+          - aarch64_cortex-a72           # OK
+          - aarch64_cortex-a76           # OK
+          - aarch64_generic              # OK
           ## Tier 2 without Host Tools ######
           ## arm-unknown-linux-musleabi* ####
-#          - arm_arm1176jzf-s_vfp         # OK. RPi Zero
-#          - arm_arm926ej-s               # OK
-#          - arm_cortex-a15_neon-vfpv4    # OK
-#          - arm_cortex-a5_vfpv4          # OK
-#          - arm_cortex-a7                # OK
+          - arm_arm1176jzf-s_vfp         # OK. RPi Zero
+          - arm_arm926ej-s               # OK
+          - arm_cortex-a15_neon-vfpv4    # OK
+          - arm_cortex-a5_vfpv4          # OK
+          - arm_cortex-a7                # OK
           - arm_cortex-a7_neon-vfpv4     # OK
-          #- arm_cortex-a7_vfpv4         # Fails with: Skipping librespot due to unsupported architecture. Target at91/sama7
-#          - arm_cortex-a8_vfpv3          # OK
-#          - arm_cortex-a9                # OK
-#          - arm_cortex-a9_neon           # OK
-#          - arm_cortex-a9_vfpv3-d16      # OK
-#          - arm_fa526                    # OK
-#          - arm_xscale                   # OK
-          #- armeb_xscale                # Fails with: Skipping librespot due to unsupported architecture. Target ixp4xx/generic
+          - arm_cortex-a7_vfpv4         # Fails with: Skipping librespot due to unsupported architecture. Target at91/sama7
+          - arm_cortex-a8_vfpv3          # OK
+          - arm_cortex-a9                # OK
+          - arm_cortex-a9_neon           # OK
+          - arm_cortex-a9_vfpv3-d16      # OK
+          - arm_fa526                    # OK
+          - arm_xscale                   # OK
+          - armeb_xscale                # Fails with: Skipping librespot due to unsupported architecture. Target ixp4xx/generic
           ## Tier 2 with Host Tools #########
           ## loongarch64-unknown-linux-musl #
-#          - loongarch64_generic          # OK
+          - loongarch64_generic          # OK
           ## Tier 2 with Host Tools #########
           ## riscv64gc-unknown-linux-musl ###
-#          - riscv64_riscv64              # OK
+          - riscv64_riscv64              # OK
           ## Tier 2 with Host Tools ##########
           ## x86_64-unknown-linux-musl #######
-#          - x86_64                       # OK
+          - x86_64                       # OK
           ## Tier 2 without Host Tools ######
           ## i*86-unknown-linux-musl ########
-          #- i386_pentium-mmx            # Fails with: Ring does not compile intel.rs due to missing SSE. Targets x86/geode and x86/legacy
-          #- i386_pentium4               # Fails with: Ring does not compile intel.rs due to missing SSE. Target x86/generic
+          - i386_pentium-mmx            # Fails with: Ring does not compile intel.rs due to missing SSE. Targets x86/geode and x86/legacy
+          - i386_pentium4               # Fails with: Ring does not compile intel.rs due to missing SSE. Target x86/generic
           ## Tier 3 #########################
           ## mips*-unknown-linux-musl #######
-#          - mips64_mips64r2            # OK 
-#          - mips64_octeonplus          # OK
-          #- mips64el_mips64r2         # Fails with: Warning: Skipping librespot due to unsupported architecture. Target malta/le64 
-#          - mips_24kc                  # OK
-          #- mips_4kec                 # Fails with: Warning: Skipping librespot due to unsupported architecture. Target realtek/rtl838x
-#          - mips_mips32                # OK
-#          - mipsel_24kc                # OK
-#          - mipsel_24kc_24kf           # OK
-#          - mipsel_74kc                # OK
-#          - mipsel_mips32              # OK
+          - mips64_mips64r2              # OK 
+          - mips64_octeonplus            # OK
+          - mips64el_mips64r2           # Fails with: Warning: Skipping librespot due to unsupported architecture. Target malta/le64 
+          - mips_24kc                    # OK
+          - mips_4kec                   # Fails with: Warning: Skipping librespot due to unsupported architecture. Target realtek/rtl838x
+          - mips_mips32                  # OK
+          - mipsel_24kc                  # OK
+          - mipsel_24kc_24kf             # OK
+          - mipsel_74kc                  # OK
+          - mipsel_mips32                # OK
           ## Tier 3 #########################
           ## powerpc*-unknown-linux-musl ####
-#          - powerpc64_e5500            # OK
-#          - powerpc_464fp              # OK
-#          - powerpc_8548               # OK
+          - powerpc64_e5500              # OK
+          - powerpc_464fp                # OK
+          - powerpc_8548                 # OK
 
     steps:
       - uses: actions/checkout@v4
@@ -91,7 +93,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ls-${{ matrix.arch }}
-          path: bin/packages/${{ matrix.arch }}/action/*.ipk
+          path: |
+            bin/packages/${{ matrix.arch }}/action/*.ipk
+            bin/packages/${{ matrix.arch }}/action/*.apk
 
   release:
 
@@ -103,15 +107,15 @@ jobs:
     
       - uses: actions/download-artifact@v4
         with:
-          path: ipks
+          path: artifacts
           pattern: ls-*
           merge-multiple: true
           
       - name: List outputs
         id: list
         run: |
-          find ipks
-          ls ipks | head -n 1 | awk -F"_" '{ print "librespot_version="$2 }' >> "$GITHUB_OUTPUT"
+          find artifacts
+          ls artifacts | head -n 1 | awk -F"_" '{ print "librespot_version="$2 }' >> "$GITHUB_OUTPUT"
     
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -121,4 +125,4 @@ jobs:
           body: |
             Librespot v${{ steps.list.outputs.librespot_version }} OpenWrt ${{ github.event.inputs.openwrt_version }} build
           files: |
-            ipks/*
+            artifacts/*

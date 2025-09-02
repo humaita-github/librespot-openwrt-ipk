@@ -11,7 +11,6 @@ This repository provides IPKs of [librespot](https://github.com/librespot-org/li
 We currently provide IPKs for the following Rust targets / OpenWrt package architectures:
 * __aarch64-unknown-linux-musl__: aarch64_cortex-a53, aarch64_cortex-a72, aarch64_cortex-a76, aarch64_generic
 * __arm*-unknown-linux-musl*__: arm_arm1176jzf-s_vfp, arm_arm926ej-s, arm_cortex-a15_neon-vfpv4, arm_cortex-a5_vfpv4, arm_cortex-a7, arm_cortex-a7_neon-vfpv4, arm_cortex-a8_vfpv3, arm_cortex-a9, arm_cortex-a9_neon, arm_cortex-a9_vfpv3-d16, arm_fa526, arm_xscale
-* __loongarch64-unknown-linux-musl__: loongarch64_generic 
 * __mips*-unknown-linux-musl__: mips64_mips64r2, mips64_octeonplus, mips_24kc, mips_mips32, mipsel_24kc, mipsel_24kc_24kf, mipsel_74kc, mipsel_mips32
 * __powerpc*-unknown-linux-musl__: powerpc64_e5500, powerpc_464fp, powerpc_8548
 * __riscv64gc-unknown-linux-musl__: riscv64_riscv64
@@ -24,8 +23,11 @@ The following OpenWrt architectures don't compile "due to unsupported architectu
 The following OpenWrt architectures don't compile due to missing SSE support for Ring: 
 * __i*86-unknown-linux-musl__: i386_pentium-mmx, i386_pentium4
 
+The following OpenWrt architecture doesn't compile due to an error in compiling symphonia-codec-vorbis (but we have an IPK package for v0.6.0) :
+* __loongarch64-unknown-linux-musl__: loongarch64_generic 
+
 # Building locally
-Here is an example on how to build for mipsel (ramips-mt7621). Check the OpenWrt SDK manual to make sure you have all depencies installed before starting.
+Here is an example on how to build an IPK for mipsel (ramips-mt7621). Check the OpenWrt SDK manual to make sure you have all depencies installed before starting. To build an APK instead just replace SDK_LINK with the SDK from the latest SNAPSHOT.
 
 ```
 # Select the OpenWrt target / OpenWrt SDK you want to use
@@ -52,6 +54,6 @@ sed -i 's/llvm.download-ci-llvm=true/llvm.download-ci-llvm="false"/' ./feeds/pac
 make defconfig
 make -j1 V=s package/feeds/librespot/librespot/compile
 
-# Find the location of the IPK
-ls -la -R bin/ | grep librespot | grep ipk
+# Find the location of the package
+ls -la -R bin/ | grep librespot | grep -e ipk -e apk
 ```

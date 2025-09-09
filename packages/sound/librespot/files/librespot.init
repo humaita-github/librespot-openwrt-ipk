@@ -19,7 +19,7 @@ start_service() {
   procd_open_instance
   procd_set_param command /usr/bin/librespot
 
-  procd_append_param command --name $device_name
+  procd_append_param command --name "$device_name"
   procd_append_param command --device-type speaker 
   procd_append_param command --initial-volume $initial_volume
   procd_append_param command --bitrate $bitrate

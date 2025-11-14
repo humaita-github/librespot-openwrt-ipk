@@ -12,9 +12,9 @@ start_service() {
   config_get_bool std_err "librespot" log_stderr 1
   config_get device_name "librespot" device_name "LouD"
   config_get bitrate "librespot" bitrate 160
-  config_get initial_volume "librespot" initial_volume 30
+  config_get initial_volume "librespot" initial_volume 50
   config_get backend "librespot" backend alsa
-  config_get options "librespot" options "--disable-audio-cache --enable-volume-normalisation --normalisation-method basic --volume-ctrl linear"
+  config_get options "librespot" options "--disable-audio-cache --enable-volume-normalisation --normalisation-method basic"
 
   procd_open_instance
   procd_set_param command /usr/bin/librespot

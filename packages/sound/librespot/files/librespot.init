@@ -10,20 +10,26 @@ start_service() {
   config_load librespot
   config_get_bool std_out "librespot" log_stdout 1
   config_get_bool std_err "librespot" log_stderr 1
-  config_get device_name "librespot" device_name "LouD"
+  config_get device_name "librespot" device_name "Spotify on $HOSTNAME"
   config_get bitrate "librespot" bitrate 160
   config_get initial_volume "librespot" initial_volume 50
   config_get backend "librespot" backend alsa
+  config_get mixer "librespot" mixer softvol
+  config_get device "librespot" device hw:0
+  config_get alsa_mixer_control "librespot" alsa_mixer_control PCM
   config_get options "librespot" options "--disable-audio-cache --enable-volume-normalisation --normalisation-method basic"
 
   procd_open_instance
   procd_set_param command /usr/bin/librespot
 
   procd_append_param command --name "$device_name"
-  procd_append_param command --device-type speaker 
+  procd_append_param command --device-type speaker
   procd_append_param command --initial-volume $initial_volume
   procd_append_param command --bitrate $bitrate
   procd_append_param command --backend $backend
+  procd_append_param command --mixer $mixer
+  procd_append_param command --device $device
+  procd_append_param command --alsa-mixer-control $alsa_mixer_control
   procd_append_param command $options
 
   procd_set_param respawn

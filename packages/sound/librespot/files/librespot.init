@@ -17,7 +17,7 @@ start_service() {
   config_get mixer "librespot" mixer softvol
   config_get device "librespot" device hw:0
   config_get alsa_mixer_control "librespot" alsa_mixer_control PCM
-  config_get options "librespot" options "--disable-audio-cache --enable-volume-normalisation --normalisation-method basic"
+  config_get options "librespot" options "--disable-audio-cache --enable-volume-normalisation --normalisation-method basic --volume-ctrl log"
 
   procd_open_instance
   procd_set_param command /usr/bin/librespot

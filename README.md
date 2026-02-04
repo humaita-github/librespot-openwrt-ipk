@@ -1,6 +1,6 @@
 # librespot-openwrt-ipk
 
-This repository provides IPKs of [librespot](https://github.com/librespot-org/librespot) for OpenWrt. This work is based on [librespot-openwrt](https://github.com/izer-xyz/librespot-openwrt/).
+This repository provides IPKs and APKs of [librespot](https://github.com/librespot-org/librespot) for OpenWrt. This work is based on [librespot-openwrt](https://github.com/izer-xyz/librespot-openwrt/).
 
 # About librespot
 
@@ -14,7 +14,7 @@ We currently provide IPKs for the following Rust targets / OpenWrt package archi
 * __loongarch64-unknown-linux-musl__: loongarch64_generic 
 * __mips*-unknown-linux-musl__: mips64_mips64r2, mips64_octeonplus, mips_24kc, mips_mips32, mipsel_24kc, mipsel_24kc_24kf, mipsel_74kc, mipsel_mips32
 * __powerpc*-unknown-linux-musl__: powerpc64_e5500, powerpc_464fp, powerpc_8548
-* __riscv64gc-unknown-linux-musl__: riscv64_riscv64
+* __riscv64gc-unknown-linux-musl__: riscv64_generic, riscv64_riscv64
 * __x86_64-unknown-linux-musl__: x86_64
 
 The following OpenWrt architectures don't compile "due to unsupported architecture" error: 
@@ -23,6 +23,12 @@ The following OpenWrt architectures don't compile "due to unsupported architectu
 
 The following OpenWrt architectures don't compile due to missing SSE support for Ring: 
 * __i*86-unknown-linux-musl__: i386_pentium-mmx, i386_pentium4
+
+# APKs are unsigned
+The APK packages are not signed, so you need to install with 
+```
+apk add --allow-untrusted librespot-0.8.0-r2_xxx.apk
+```
 
 # Building locally
 Here is an example on how to build an IPK for mipsel (ramips-mt7621). Check the OpenWrt SDK manual to make sure you have all depencies installed before starting. To build an APK instead just replace SDK_LINK with the SDK from the latest SNAPSHOT.

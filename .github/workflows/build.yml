@@ -5,8 +5,8 @@ on:
     inputs:
       openwrt_version:
        description: 'OpenWrt version'
-       # Use SNAPSHOT for APK and 24.10-SNAPSHOT for IPK
-       default: '24.10-SNAPSHOT'
+       # Use 25.12-SNAPSHOT for APK and 24.10-SNAPSHOT for IPK
+       default: '25.12-SNAPSHOT'
        required: true
        type: string
   
@@ -75,7 +75,7 @@ jobs:
           - powerpc_8548                 # OK
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -89,8 +89,21 @@ jobs:
       - name: List outputs
         run: |
           find bin/packages
+          
+          # Renaming APK files to include architecture suffix
+          # e.g., librespot_0.8.0-r1.apk -> librespot_0.8.0-r1_aarch64_cortex-a53.apk
+          if ls bin/packages/${{ matrix.arch }}/action/*.apk 1> /dev/null 2>&1; then
+            echo "Processing APK files..."
+            for apk_file in bin/packages/${{ matrix.arch }}/action/*.apk; do
+              filename=$(basename "$apk_file")
+              new_filename="${filename%.apk}_${{ matrix.arch }}.apk"
+              mv bin/packages/${{ matrix.arch }}/action/"$filename" bin/packages/${{ matrix.arch }}/action/"$new_filename"
+            done
+          else
+            echo "No APK files found"
+          fi
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ls-${{ matrix.arch }}
           path: |
@@ -104,8 +117,7 @@ jobs:
     needs: build
     
     steps:
-    
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           path: artifacts
           pattern: ls-*

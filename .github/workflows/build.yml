@@ -21,6 +21,7 @@ jobs:
     strategy:
       matrix:
         arch:
+          ## See https://downloads.openwrt.org/snapshots/packages/
           ## Rust Tier 2 with Host Tools ####
           ## aarch64-unknown-linux-musl #####
           - aarch64_cortex-a53           # OK. RPi 3+
@@ -48,6 +49,7 @@ jobs:
           - loongarch64_generic          # OK
           ## Tier 2 with Host Tools #########
           ## riscv64gc-unknown-linux-musl ###
+          - riscv64_generic              # NEW
           - riscv64_riscv64              # OK
           ## Tier 2 with Host Tools ##########
           ## x86_64-unknown-linux-musl #######
